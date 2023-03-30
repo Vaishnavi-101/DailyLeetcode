@@ -1,0 +1,32 @@
+https://leetcode.com/problems/reducing-dishes/description/
+Company Name - Amex,sony,OT
+class Solution {
+public:
+    int dp[501][501];
+    int chefCokking(vector<int>& satisfaction,int index,int time)
+    {
+
+          if(index >= satisfaction.size())
+          return 0;
+          
+          if(dp[index][time] != -1) return dp[index][time];
+          //take 
+          int include = INT_MIN;
+          include = satisfaction[index]*time + chefCokking(satisfaction,index+1,time+1);
+          
+          //Not take 
+          int exclude = INT_MIN;
+          exclude = chefCokking(satisfaction,index+1,time);
+
+          return dp[index][time] = max(include,exclude); 
+    }
+    int maxSatisfaction(vector<int>& satisfaction) {
+       
+       memset(dp,-1,sizeof(dp));
+
+       //sort so that max value can take max time 
+       sort(satisfaction.begin(),satisfaction.end());
+        return chefCokking(satisfaction,0,1);
+
+    }
+};
